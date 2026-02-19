@@ -42,7 +42,7 @@ def config(
     show: bool = typer.Option(False, "--show", help="Show current configuration")
 ):
     """
-    配置设置 (Configure settings interactively)
+    Configure settings interactively.
     """
     if show:
         table = Table(title="Current Configuration", show_header=True, header_style="bold cyan")
@@ -86,7 +86,7 @@ def config(
 @app.command()
 def config_reset():
     """
-    重置配置 (Reset configuration to defaults)
+    Reset configuration to defaults.
     """
     if typer.confirm("Are you sure you want to reset all settings to defaults?"):
         config_manager.reset()
@@ -98,7 +98,7 @@ def list(
     project: str = typer.Option(None, "--project", help="GCP Project ID override")
 ):
     """
-    列出可用的 Chirp 3 HD 语音 (List available Chirp 3 HD voices)
+    List available Chirp 3 HD voices.
     """
     validate_project_id(project)
     target_lang = lang or config_manager.get("default_language")
@@ -131,7 +131,7 @@ def say(
     creds: str = typer.Option(None, help="Path to GCP Service Account JSON")
 ):
     """
-    使用 Chirp 3 HD 合成语音 (Synthesize speech using Chirp 3 HD)
+    Synthesize speech using Chirp 3 HD.
     """
     validate_project_id(project)
     target_voice = voice or config_manager.get("default_voice")
