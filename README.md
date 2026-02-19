@@ -58,11 +58,23 @@ The tool uses Google Cloud **Application Default Credentials (ADC)** by default.
 
 ## 🛠 Usage
 
-### List Voices
-List all available Chirp 3 HD voices for a language:
+### Configuration
+Set persistent defaults to avoid repetitive typing:
 
 ```bash
-uv run googlecloud-chirp list --lang en-US
+uv run googlecloud-chirp config
+```
+This wizard will help you set your default voice, project ID, and output preferences. You can view your current settings with:
+
+```bash
+uv run googlecloud-chirp config --show
+```
+
+### List Voices
+List all available Chirp 3 HD voices for a language (uses default if --lang is omitted):
+
+```bash
+uv run googlecloud-chirp list
 ```
 
 ### Synthesize Speech
