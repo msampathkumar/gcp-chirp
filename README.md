@@ -58,6 +58,12 @@ The tool uses Google Cloud **Application Default Credentials (ADC)** by default.
 
 ## 🛠 Usage
 
+### 🚀 Quick Start (One-time Setup)
+Run the setup wizard to check dependencies (FFmpeg, gcloud), configure authentication, and set initial defaults:
+```bash
+uv run googlecloud-chirp setup
+```
+
 ### Configuration Precedence
 The tool follows a strict precedence for settings:
 1.  **CLI Flags**: (e.g., `--project`, `--voice`, `--play`) always win.

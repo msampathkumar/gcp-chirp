@@ -1,11 +1,13 @@
-import typer
+import os
+import shutil
+import subprocess
+from pathlib import Path
 from typing import Optional
+import typer
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
 from rich.progress import Progress, SpinnerColumn, TextColumn
-import os
-from pathlib import Path
 from dotenv import load_dotenv
 from .tts import ChirpTTS
 from .config import ConfigManager
@@ -20,6 +22,10 @@ app = typer.Typer(
     rich_markup_mode="rich"
 )
 console = Console()
+
+def check_dependency(name: str) -> bool:
+    """Checks if a command-line tool is installed."""
+    return shutil.which(name) is not None
 
 def validate_project_id(cli_project: Optional[str] = None):
     """Checks if a project ID is set in CLI, config or environment."""
@@ -36,6 +42,46 @@ def validate_project_id(cli_project: Optional[str] = None):
         ))
         raise typer.Exit(code=1)
     return project_id
+
+@app.command()
+def setup():
+    """
+    Check prerequisites and initialize the tool.
+    """
+    console.print(Panel("🔍 [bold cyan]Starting Setup Diagnostics[/bold cyan]", border_style="cyan"))
+    
+    # 1. Check FFmpeg
+    with console.status("[bold blue]Checking FFmpeg..."):
+        has_ffmpeg = check_dependency("ffmpeg")
+    
+    if has_ffmpeg:
+        console.print("[green]✅ FFmpeg found.[/green]")
+    else:
+        console.print("[red]❌ FFmpeg NOT found.[/red] Please install it: [bold yellow]brew install ffmpeg[/bold yellow]")
+
+    # 2. Check gcloud CLI
+    with console.status("[bold blue]Checking gcloud CLI..."):
+        has_gcloud = check_dependency("gcloud")
+    
+    if has_gcloud:
+        console.print("[green]✅ gcloud CLI found.[/green]")
+    else:
+        console.print("[yellow]⚠️  gcloud CLI not found.[/yellow] It's recommended for authentication.")
+
+    # 3. Handle Authentication
+    if has_gcloud:
+        if typer.confirm("Do you want to set up Application Default Credentials (ADC) now?"):
+            try:
+                subprocess.run(["gcloud", "auth", "application-default", "login"], check=True)
+                console.print("[green]✅ ADC configured successfully.[/green]")
+            except subprocess.CalledProcessError:
+                console.print("[red]❌ ADC configuration failed.[/red]")
+
+    # 4. Run Config Wizard
+    if typer.confirm("Do you want to run the Configuration Wizard now?"):
+        config(show=False)
+    
+    console.print(Panel("[bold green]Setup Complete![/bold green]", border_style="green"))
 
 @app.command()
 def config(

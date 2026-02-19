@@ -20,3 +20,12 @@
     - [x] Create `config` command wizard in `cli.py`
     - [x] Refactor `say` and `list` to use config defaults
     - [x] Write and run test suite
+
+## Current Track: Setup Experience & Diagnostics
+- **Status**: Starting
+- **Goal**: Create a `setup` command that automates prerequisite checks and initialization.
+- **Milestones**:
+    - [ ] Implement dependency check (ffmpeg, gcloud)
+    - [ ] Create `setup` command in `cli.py`
+    - [ ] Integrated guided authentication (ADC)
+    - [ ] Auto-invoke `config` wizard during setup
