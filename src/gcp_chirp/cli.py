@@ -18,10 +18,36 @@ load_dotenv()
 config_manager = ConfigManager()
 
 app = typer.Typer(
-    help="🚀 GCP Chirp 3 HD TTS CLI Tool",
+    help="""
+🚀 [bold cyan]GCP Chirp 3 HD TTS CLI Tool[/bold cyan]
+
+[bold yellow]Usage Examples:[/bold yellow]
+  [dim]# List available voices[/dim]
+  [green]gcp-chirp list --lang en-US[/green]
+
+  [dim]# Synthesize speech[/dim]
+  [green]gcp-chirp say "Hello World"[/green]
+
+  [dim]# Synthesize from a file[/dim]
+  [green]gcp-chirp say --file input.txt[/green]
+""",
     rich_markup_mode="rich"
 )
 console = Console()
+
+@app.callback(invoke_without_command=True)
+def main(ctx: typer.Context):
+    """
+    Main entry point for GCP Chirp 3 HD TTS CLI.
+    """
+    if ctx.invoked_subcommand is None:
+        console.print(Panel(
+            "[yellow]No command provided.[/yellow] Please see the available commands below.",
+            title="[bold yellow]Attention[/bold yellow]",
+            border_style="yellow"
+        ))
+        console.print(ctx.get_help())
+        raise typer.Exit()
 
 def check_dependency(name: str) -> bool:
     """Checks if a command-line tool is installed."""
