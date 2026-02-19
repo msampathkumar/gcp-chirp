@@ -9,7 +9,7 @@ CONFIG_FILE = CONFIG_DIR / "settings.yaml"
 
 DEFAULT_CONFIG = {
     "project_id": "",
-    "default_voice": "en-US-Chirp3-HD-A",
+    "default_voice": "en-US-Chirp3-HD-Aoede",
     "default_language": "en-US",
     "output_dir": ".",
     "auto_play": False,

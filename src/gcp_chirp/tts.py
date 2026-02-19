@@ -20,7 +20,7 @@ class ChirpTTS:
     def synthesize(
         self, 
         text: str, 
-        voice_name: str = "en-US-Chirp3-HD-A", 
+        voice_name: str = "en-US-Chirp3-HD-Aoede", 
         output_file: str = "output.mp3"
     ) -> str:
         """Synthesizes text using Chirp 3 HD voice."""
