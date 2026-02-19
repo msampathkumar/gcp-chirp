@@ -36,11 +36,28 @@ class ChirpTTS:
             audio_encoding=texttospeech.AudioEncoding.MP3
         )
 
-        response = self.client.synthesize_speech(
-            input=input_text, voice=voice, audio_config=audio_config
-        )
+        try:
+            response = self.client.synthesize_speech(
+                input=input_text, voice=voice, audio_config=audio_config
+            )
 
-        with open(output_file, "wb") as out:
-            out.write(response.audio_content)
-        
-        return output_file
+            # Ensure directory exists for output_file
+            output_path = os.path.dirname(output_file)
+            if output_path:
+                os.makedirs(output_path, exist_ok=True)
+
+            with open(output_file, "wb") as out:
+                out.write(response.audio_content)
+            
+            return output_file
+        except Exception as e:
+            # Re-raise with a cleaner message if it's a known service issue
+            error_msg = str(e)
+            if "quota" in error_msg.lower():
+                raise Exception(f"API Quota exceeded: {error_msg}")
+            elif "authentication" in error_msg.lower() or "credentials" in error_msg.lower():
+                raise Exception(f"Authentication failed. Please run 'gcp-chirp setup' or set GOOGLE_APPLICATION_CREDENTIALS: {error_msg}")
+            elif "network" in error_msg.lower() or "connection" in error_msg.lower():
+                raise Exception(f"Network error: Please check your internet connection: {error_msg}")
+            else:
+                raise Exception(f"TTS Synthesis failed: {error_msg}")

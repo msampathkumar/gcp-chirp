@@ -77,7 +77,15 @@ def setup():
             except subprocess.CalledProcessError:
                 console.print("[red]❌ ADC configuration failed.[/red]")
 
-    # 4. Run Config Wizard
+    # 4. Shell Completion
+    if typer.confirm("Do you want to install shell completion for gcp-chirp?"):
+        try:
+            subprocess.run(["gcp-chirp", "--install-completion"], check=True)
+            console.print("[green]✅ Shell completion installed.[/green]")
+        except Exception:
+            console.print("[yellow]⚠️  Could not install shell completion automatically.[/yellow]")
+
+    # 5. Run Config Wizard
     if typer.confirm("Do you want to run the Configuration Wizard now?"):
         config(show=False)
     
@@ -188,7 +196,8 @@ def list(
 
 @app.command()
 def say(
-    text: str = typer.Argument(..., help="Text to synthesize"),
+    text: Optional[str] = typer.Argument(None, help="Text to synthesize"),
+    input_file: Optional[Path] = typer.Option(None, "--file", "-f", help="Read text from file"),
     voice: str = typer.Option(None, "--voice", help="Voice name"),
     output: str = typer.Option(None, "--output", help="Output audio file path"),
     project: str = typer.Option(None, "--project", help="GCP Project ID override"),
@@ -198,6 +207,24 @@ def say(
     """
     Synthesize speech using Chirp 3 HD.
     """
+    # Validate input
+    if not text and not input_file:
+        console.print("[red]Error: Please provide either a text argument or a --file path.[/red]")
+        raise typer.Exit(code=1)
+    
+    if input_file:
+        if not input_file.exists():
+            console.print(f"[red]Error: File not found: {input_file}[/red]")
+            raise typer.Exit(code=1)
+        with open(input_file, "r") as f:
+            final_text = f.read().strip()
+    else:
+        final_text = text
+
+    if not final_text:
+        console.print("[red]Error: Input text is empty.[/red]")
+        raise typer.Exit(code=1)
+
     validate_project_id(project)
     target_voice = voice or config_manager.get("default_voice")
     target_auto_play = auto_play if auto_play is not None else config_manager.get("auto_play")
@@ -213,7 +240,7 @@ def say(
         tts = ChirpTTS(credentials_path=creds)
         
         console.print(Panel(
-            f"[bold blue]Synthesizing:[/bold blue] {text[:50]}{'...' if len(text) > 50 else ''}\n"
+            f"[bold blue]Synthesizing:[/bold blue] {final_text[:50]}{'...' if len(final_text) > 50 else ''}\n"
             f"[bold green]Voice:[/bold green] {target_voice}\n"
             f"[bold yellow]Output:[/bold yellow] {output_path}",
             title="TTS Synthesis",
@@ -226,7 +253,7 @@ def say(
             transient=True,
         ) as progress:
             progress.add_task(description="Generating audio...", total=None)
-            final_output = tts.synthesize(text, target_voice, output_path)
+            final_output = tts.synthesize(final_text, target_voice, output_path)
 
         console.print(f"[bold green]✨ Success![/bold green] Audio saved to [underline]{final_output}[/underline]")
         

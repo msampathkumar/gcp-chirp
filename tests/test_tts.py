@@ -38,3 +38,20 @@ def test_list_voices_filtering(mocker):
     
     assert len(voices) == 1
     assert voices[0] == "en-US-Chirp3-HD-A"
+def test_synthesize_quota_error(mocker):
+    mock_client = mocker.patch("google.cloud.texttospeech.TextToSpeechClient")
+    mock_client.return_value.synthesize_speech.side_effect = Exception("Quota exceeded for project")
+    
+    tts = ChirpTTS()
+    with pytest.raises(Exception) as excinfo:
+        tts.synthesize("Hello")
+    assert "API Quota exceeded" in str(excinfo.value)
+
+def test_synthesize_auth_error(mocker):
+    mock_client = mocker.patch("google.cloud.texttospeech.TextToSpeechClient")
+    mock_client.return_value.synthesize_speech.side_effect = Exception("Invalid credentials")
+    
+    tts = ChirpTTS()
+    with pytest.raises(Exception) as excinfo:
+        tts.synthesize("Hello")
+    assert "Authentication failed" in str(excinfo.value)
