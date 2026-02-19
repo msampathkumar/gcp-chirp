@@ -1,5 +1,5 @@
 def main():
-    print("Hello from googlecloud-chirp!")
+    print("Hello from gcp-chirp!")
 
 
 if __name__ == "__main__":

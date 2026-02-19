@@ -18,7 +18,7 @@ DEFAULT_CONFIG = {
 
 class ConfigManager:
     def __init__(self, config_dir: Optional[Path] = None):
-        self.config_dir = config_dir or (Path.home() / ".googlecloud-chirp")
+        self.config_dir = config_dir or (Path.home() / ".gcp-chirp")
         self.config_file = self.config_dir / "settings.yaml"
         self._config: Dict[str, Any] = DEFAULT_CONFIG.copy()
         self.load()

@@ -1,6 +1,6 @@
 # 🎼 Conductor Tracks
 
-## Current Track: googlecloud-chirp CLI Tool Development
+## Current Track: gcp-chirp CLI Tool Development
 - **Status**: Active
 - **Objective**: Build a Python CLI tool for Google Cloud TTS Chirp 3 HD voices using `uv`.
 - **Milestones**:
@@ -13,7 +13,7 @@
 
 ## Current Track: Configuration System & Testing
 - **Status**: In Progress
-- **Goal**: Implement `config` command and persistent settings in `~/.googlecloud-chirp/settings.yaml`.
+- **Goal**: Implement `config` command and persistent settings in `~/.gcp-chirp/settings.yaml`.
 - **Milestones**:
     - [x] Add PyYAML and testing dependencies
     - [x] Implement `src/googlecloud_chirp/config.py` manager
