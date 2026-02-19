@@ -37,7 +37,7 @@ uv tool install gcp-chirp
 ### From Source
 If you are developing or want to run it locally:
 ```bash
-git clone https://github.com/sampathm/gcp-chirp
+git clone https://github.com/msampathkumar/gcp-chirp
 cd gcp-chirp
 uv sync
 ```
