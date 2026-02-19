@@ -58,31 +58,46 @@ The tool uses Google Cloud **Application Default Credentials (ADC)** by default.
 
 ## 🛠 Usage
 
-### Configuration
-Set persistent defaults to avoid repetitive typing:
+### Configuration Precedence
+The tool follows a strict precedence for settings:
+1.  **CLI Flags**: (e.g., `--project`, `--voice`, `--play`) always win.
+2.  **Config File**: (`~/.googlecloud-chirp/settings.yaml`).
+3.  **Environment Variables**: (e.g., `GOOGLE_CLOUD_PROJECT`).
 
+### ⚙️ Configuration Commands
+
+#### Interactive Setup
+Set your default project, voice, and output preferences:
 ```bash
 uv run googlecloud-chirp config
 ```
-This wizard will help you set your default voice, project ID, and output preferences. You can view your current settings with:
 
+#### View Current Configuration
 ```bash
 uv run googlecloud-chirp config --show
 ```
 
-### List Voices
-List all available Chirp 3 HD voices for a language (uses default if --lang is omitted):
-
+#### Reset Configuration
+Reset all settings to factory defaults:
 ```bash
-uv run googlecloud-chirp list
+uv run googlecloud-chirp config-reset
 ```
 
-### Synthesize Speech
-Convert text to high-quality audio:
+### 📋 Action Commands
 
+#### List Voices
+List available voices for a language (uses default language if omitted):
 ```bash
-uv run googlecloud-chirp say "Hello, this is a Chirp 3 HD voice. How do I sound?" --voice en-US-Chirp3-HD-A --output hello.mp3
+uv run googlecloud-chirp list --project my-temporary-project
 ```
+
+#### Synthesize Speech
+Convert text to audio with overrides:
+```bash
+uv run googlecloud-chirp say "Hello, I am synthesized using a specific project and voice!" --voice en-US-Chirp3-HD-Charon --project my-project --play
+```
+
+*Note: Files are saved in the configured `output_dir` with a timestamped filename unless `--output` is provided.*
 
 ## 🏗 Track Status
 

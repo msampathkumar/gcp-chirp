@@ -53,6 +53,11 @@ class ConfigManager:
     def set(self, key: str, value: Any):
         self._config[key] = value
 
+    def reset(self):
+        """Resets the configuration to defaults."""
+        self._config = DEFAULT_CONFIG.copy()
+        self.save()
+
     @property
     def all(self) -> Dict[str, Any]:
         return self._config.copy()

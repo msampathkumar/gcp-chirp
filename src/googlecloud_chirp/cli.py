@@ -1,4 +1,5 @@
 import typer
+from typing import Optional
 from rich.console import Console
 from rich.table import Table
 from rich.panel import Panel
@@ -20,13 +21,15 @@ app = typer.Typer(
 )
 console = Console()
 
-def validate_project_id():
-    """Checks if a project ID is set in config or environment."""
-    project_id = config_manager.get("project_id")
+def validate_project_id(cli_project: Optional[str] = None):
+    """Checks if a project ID is set in CLI, config or environment."""
+    # Precedence: CLI > Config > ENV (Config.get handles ENV if config is empty)
+    project_id = cli_project or config_manager.get("project_id")
+    
     if not project_id:
         console.print(Panel(
             "[bold red]Google Cloud Project ID is not set![/bold red]\n\n"
-            "Please run [bold cyan]googlecloud-chirp config[/bold cyan] to set it, "
+            "Please provide it via [bold cyan]--project[/bold cyan], set it via [bold cyan]config[/bold cyan], "
             "or set the [bold green]GOOGLE_CLOUD_PROJECT[/bold green] environment variable.",
             title="Configuration Error",
             border_style="red"
@@ -81,13 +84,23 @@ def config(
     console.print(f"\n[bold green]✨ Configuration saved to {CONFIG_FILE}[/bold green]")
 
 @app.command()
+def config_reset():
+    """
+    重置配置 (Reset configuration to defaults)
+    """
+    if typer.confirm("Are you sure you want to reset all settings to defaults?"):
+        config_manager.reset()
+        console.print("[bold green]✨ Configuration has been reset to defaults.[/bold green]")
+
+@app.command()
 def list(
-    lang: str = typer.Option(None, help="Language code (e.g., en-US, es-ES)")
+    lang: str = typer.Option(None, "--lang", help="Language code (e.g., en-US, es-ES)"),
+    project: str = typer.Option(None, "--project", help="GCP Project ID override")
 ):
     """
     列出可用的 Chirp 3 HD 语音 (List available Chirp 3 HD voices)
     """
-    validate_project_id()
+    validate_project_id(project)
     target_lang = lang or config_manager.get("default_language")
     try:
         tts = ChirpTTS()
@@ -111,15 +124,18 @@ def list(
 @app.command()
 def say(
     text: str = typer.Argument(..., help="Text to synthesize"),
-    voice: str = typer.Option(None, help="Voice name"),
-    output: str = typer.Option(None, help="Output audio file path"),
+    voice: str = typer.Option(None, "--voice", help="Voice name"),
+    output: str = typer.Option(None, "--output", help="Output audio file path"),
+    project: str = typer.Option(None, "--project", help="GCP Project ID override"),
+    auto_play: Optional[bool] = typer.Option(None, "--play/--no-play", help="Override auto-play setting"),
     creds: str = typer.Option(None, help="Path to GCP Service Account JSON")
 ):
     """
     使用 Chirp 3 HD 合成语音 (Synthesize speech using Chirp 3 HD)
     """
-    validate_project_id()
+    validate_project_id(project)
     target_voice = voice or config_manager.get("default_voice")
+    target_auto_play = auto_play if auto_play is not None else config_manager.get("auto_play")
     # Determine output path
     if output:
         output_path = output
@@ -149,7 +165,7 @@ def say(
 
         console.print(f"[bold green]✨ Success![/bold green] Audio saved to [underline]{final_output}[/underline]")
         
-        if config_manager.get("auto_play"):
+        if target_auto_play:
             console.print("[dim]Playing audio...[/dim]")
             if os.uname().sysname == "Darwin":
                 os.system(f"afplay '{final_output}'")
