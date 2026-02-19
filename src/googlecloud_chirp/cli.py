@@ -139,6 +139,25 @@ def config_reset():
         console.print("[bold green]✨ Configuration has been reset to defaults.[/bold green]")
 
 @app.command()
+def uninstall():
+    """
+    Remove local configuration and clean up.
+    """
+    from .config import CONFIG_DIR
+    if CONFIG_DIR.exists():
+        console.print(Panel(
+            f"[bold red]WARNING:[/bold red] This will permanently delete your configuration at [underline]{CONFIG_DIR}[/underline]",
+            title="Cleanup Confirmation",
+            border_style="red"
+        ))
+        if typer.confirm("Are you sure you want to proceed?"):
+            shutil.rmtree(CONFIG_DIR)
+            console.print("[bold green]✨ Local configuration removed.[/bold green]")
+            console.print("[dim]To fully uninstall the tool, run: [bold]uv tool uninstall googlecloud-chirp[/bold][/dim]")
+    else:
+        console.print("[yellow]No local configuration found to clean up.[/yellow]")
+
+@app.command()
 def list(
     lang: str = typer.Option(None, "--lang", help="Language code (e.g., en-US, es-ES)"),
     project: str = typer.Option(None, "--project", help="GCP Project ID override")

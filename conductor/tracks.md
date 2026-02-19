@@ -25,7 +25,16 @@
 - **Status**: Starting
 - **Goal**: Create a `setup` command that automates prerequisite checks and initialization.
 - **Milestones**:
-    - [ ] Implement dependency check (ffmpeg, gcloud)
-    - [ ] Create `setup` command in `cli.py`
-    - [ ] Integrated guided authentication (ADC)
-    - [ ] Auto-invoke `config` wizard during setup
+    - [x] Implement dependency check (ffmpeg, gcloud)
+    - [x] Create `setup` command in `cli.py`
+    - [x] Integrated guided authentication (ADC)
+    - [x] Auto-invoke `config` wizard during setup
+
+## Current Track: PyPI Readiness & Tool Distribution
+- **Status**: Completed
+- **Goal**: Prepare the package for PyPI and global distribution as a CLI tool.
+- **Milestones**:
+    - [x] Add PyPI metadata to `pyproject.toml`
+    - [x] Implement internal `uninstall` command for state cleanup
+    - [x] Update documentation for `uv tool install`
+    - [ ] Perform trial build with `uv build`

@@ -28,19 +28,31 @@ Before you begin, ensure you have the following installed and configured:
 
 ## 📦 Installation
 
-This project uses `uv`. Ensure you have it installed:
-
+### Via PyPI (Recommended)
+This is the easiest way to install the tool globally:
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
+uv tool install googlecloud-chirp
 ```
 
-Clone the repository and install dependencies:
-
+### From Source
+If you are developing or want to run it locally:
 ```bash
-git clone <repository-url>
+git clone https://github.com/sampathm/googlecloud-chirp
 cd googlecloud-chirp
 uv sync
 ```
+
+## 🗑 Uninstallation
+To remove the tool and its local data:
+
+1. **Clean local configuration**:
+   ```bash
+   googlecloud-chirp uninstall
+   ```
+2. **Remove the global tool**:
+   ```bash
+   uv tool uninstall googlecloud-chirp
+   ```
 
 ## 🔑 Authentication
 
