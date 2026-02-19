@@ -18,7 +18,7 @@ load_dotenv()
 config_manager = ConfigManager()
 
 app = typer.Typer(
-    help="🚀 Google Cloud Chirp 3 HD TTS CLI Tool",
+    help="🚀 GCP Chirp 3 HD TTS CLI Tool",
     rich_markup_mode="rich"
 )
 console = Console()
@@ -35,7 +35,7 @@ def validate_project_id(cli_project: Optional[str] = None):
     if not project_id:
         console.print(Panel(
             "[bold red]Google Cloud Project ID is not set![/bold red]\n\n"
-            "Please provide it via [bold cyan]--project[/bold cyan], set it via [bold cyan]config[/bold cyan], "
+            "Please provide it via [bold cyan]--project[/bold cyan], set it via [bold cyan]gcp-chirp config[/bold cyan], "
             "or set the [bold green]GOOGLE_CLOUD_PROJECT[/bold green] environment variable.",
             title="Configuration Error",
             border_style="red"
@@ -153,7 +153,7 @@ def uninstall():
         if typer.confirm("Are you sure you want to proceed?"):
             shutil.rmtree(CONFIG_DIR)
             console.print("[bold green]✨ Local configuration removed.[/bold green]")
-            console.print("[dim]To fully uninstall the tool, run: [bold]uv tool uninstall googlecloud-chirp[/bold][/dim]")
+            console.print("[dim]To fully uninstall the tool, run: [bold]uv tool uninstall gcp-chirp[/bold][/dim]")
     else:
         console.print("[yellow]No local configuration found to clean up.[/yellow]")
 

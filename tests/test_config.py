@@ -2,7 +2,7 @@ import os
 import yaml
 import pytest
 from pathlib import Path
-from googlecloud_chirp.config import ConfigManager, DEFAULT_CONFIG
+from gcp_chirp.config import ConfigManager, DEFAULT_CONFIG
 
 def test_config_manager_initialization(tmp_path):
     manager = ConfigManager(config_dir=tmp_path)

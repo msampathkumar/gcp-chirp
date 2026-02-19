@@ -1,9 +1,12 @@
 import pytest
-from googlecloud_chirp.tts import ChirpTTS
+from gcp_chirp.tts import ChirpTTS
 
 def test_synthesize_call_structure(mocker):
-    # Mock the TextToSpeechClient
     mock_client = mocker.patch("google.cloud.texttospeech.TextToSpeechClient")
+    # Mock the return value of synthesize_speech
+    mock_response = mocker.Mock()
+    mock_response.audio_content = b"fake audio content"
+    mock_client.return_value.synthesize_speech.return_value = mock_response
     
     tts = ChirpTTS()
     tts.synthesize("Hello world", voice_name="en-US-Chirp3-HD-A", output_file="test.mp3")

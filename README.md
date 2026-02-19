@@ -1,4 +1,4 @@
-# 🎙️ googlecloud-chirp
+# 🎙️ gcp-chirp
 
 A premium CLI tool for working with **Google Cloud Text-to-Speech Chirp 3 HD** voices. Chirp 3 HD is a new generation of expressive, high-fidelity voices powered by Google's latest LLMs.
 
@@ -31,14 +31,14 @@ Before you begin, ensure you have the following installed and configured:
 ### Via PyPI (Recommended)
 This is the easiest way to install the tool globally:
 ```bash
-uv tool install googlecloud-chirp
+uv tool install gcp-chirp
 ```
 
 ### From Source
 If you are developing or want to run it locally:
 ```bash
-git clone https://github.com/sampathm/googlecloud-chirp
-cd googlecloud-chirp
+git clone https://github.com/sampathm/gcp-chirp
+cd gcp-chirp
 uv sync
 ```
 
@@ -47,11 +47,11 @@ To remove the tool and its local data:
 
 1. **Clean local configuration**:
    ```bash
-   googlecloud-chirp uninstall
+   gcp-chirp uninstall
    ```
 2. **Remove the global tool**:
    ```bash
-   uv tool uninstall googlecloud-chirp
+   uv tool uninstall gcp-chirp
    ```
 
 ## 🔑 Authentication
@@ -73,13 +73,13 @@ The tool uses Google Cloud **Application Default Credentials (ADC)** by default.
 ### 🚀 Quick Start (One-time Setup)
 Run the setup wizard to check dependencies (FFmpeg, gcloud), configure authentication, and set initial defaults:
 ```bash
-uv run googlecloud-chirp setup
+uv run gcp-chirp setup
 ```
 
 ### Configuration Precedence
 The tool follows a strict precedence for settings:
 1.  **CLI Flags**: (e.g., `--project`, `--voice`, `--play`) always win.
-2.  **Config File**: (`~/.googlecloud-chirp/settings.yaml`).
+2.  **Config File**: (`~/.gcp-chirp/settings.yaml`).
 3.  **Environment Variables**: (e.g., `GOOGLE_CLOUD_PROJECT`).
 
 ### ⚙️ Configuration Commands
@@ -87,18 +87,18 @@ The tool follows a strict precedence for settings:
 #### Interactive Setup
 Set your default project, voice, and output preferences:
 ```bash
-uv run googlecloud-chirp config
+uv run gcp-chirp config
 ```
 
 #### View Current Configuration
 ```bash
-uv run googlecloud-chirp config --show
+uv run gcp-chirp config --show
 ```
 
 #### Reset Configuration
 Reset all settings to factory defaults:
 ```bash
-uv run googlecloud-chirp config-reset
+uv run gcp-chirp config-reset
 ```
 
 ### 📋 Action Commands
@@ -106,13 +106,13 @@ uv run googlecloud-chirp config-reset
 #### List Voices
 List available voices for a language (uses default language if omitted):
 ```bash
-uv run googlecloud-chirp list --project my-temporary-project
+uv run gcp-chirp list --project my-temporary-project
 ```
 
 #### Synthesize Speech
 Convert text to audio with overrides:
 ```bash
-uv run googlecloud-chirp say "Hello, I am synthesized using a specific project and voice!" --voice en-US-Chirp3-HD-Charon --project my-project --play
+uv run gcp-chirp say "Hello, I am synthesized using a specific project and voice!" --voice en-US-Chirp3-HD-Charon --project my-project --play
 ```
 
 *Note: Files are saved in the configured `output_dir` with a timestamped filename unless `--output` is provided.*

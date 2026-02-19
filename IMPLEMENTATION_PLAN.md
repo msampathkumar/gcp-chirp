@@ -1,11 +1,11 @@
-# 🧪 Implementation & Testing Plan: googlecloud-chirp
+# 🧪 Implementation & Testing Plan: gcp-chirp
 
 This plan outlines the steps for finalizing the implementation, expanding the test suite, and preparing for PyPI release.
 
 ## 🚀 Phase 1: Core Implementation Refinement
 - [ ] **Error Handling**: Add more specific exception handling for network issues and API quota limits in `tts.py`.
 - [ ] **Shell Completion**: Ensure `typer` shell completion is easy to install via `setup` command.
-- [ ] **Input Support**: Allow synthesizing text from a file (e.g., `googlecloud-chirp say --file input.txt`).
+- [ ] **Input Support**: Allow synthesizing text from a file (e.g., `gcp-chirp say --file input.txt`).
 
 ## 🧪 Phase 2: Comprehensive Testing
 - **Directory**: `tests/`

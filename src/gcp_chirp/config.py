@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 # These are defaults, but the class can take customs
-CONFIG_DIR = Path.home() / ".googlecloud-chirp"
+CONFIG_DIR = Path.home() / ".gcp-chirp"
 CONFIG_FILE = CONFIG_DIR / "settings.yaml"
 
 DEFAULT_CONFIG = {

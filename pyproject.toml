@@ -1,12 +1,18 @@
 [project]
-name = "googlecloud-chirp"
+name = "gcp-chirp"
 version = "0.1.0"
 description = "A premium CLI tool for Google Cloud Text-to-Speech Chirp 3 HD voices"
 readme = "README.md"
-authors = [
-    { name = "Sampath M", email = "sampathm@google.com" }
+authors = [{ name = "Sampath M", email = "sampathm@google.com" }]
+keywords = [
+    "google-cloud",
+    "tts",
+    "text-to-speech",
+    "chirp",
+    "chirp-3-hd",
+    "cli",
+    "ai",
 ]
-keywords = ["google-cloud", "tts", "text-to-speech", "chirp", "chirp-3-hd", "cli", "ai"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
@@ -23,17 +29,14 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/sampathm/googlecloud-chirp"
-Repository = "https://github.com/sampathm/googlecloud-chirp"
+Homepage = "https://github.com/sampathm/gcp-chirp"
+Repository = "https://github.com/sampathm/gcp-chirp"
 
 [project.scripts]
-googlecloud-chirp = "googlecloud_chirp.main:main"
+gcp-chirp = "gcp_chirp.main:main"
 
 [dependency-groups]
-dev = [
-    "pytest>=9.0.2",
-    "pytest-mock>=3.15.1",
-]
+dev = ["pytest>=9.0.2", "pytest-mock>=3.15.1"]
 
 [build-system]
 requires = ["hatchling"]
